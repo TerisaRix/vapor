@@ -67,7 +67,7 @@ def main(args):
         sys.stderr.write("WARNING: kmer sizes of less than 21 can result in contaminating sequence carryover, which may affect results. Only do this if you know your sample is pure, or have increased the filtering threshold -t sufficiently. Refer to the docs for details. \n")
 
     sys.stderr.write("Loading database sequences\n")
-    seqsh, seqs = vp.parse_fasta_uniq(args.fa)
+    seqsh, seqs = vp.parse_fasta_uniq(args.fa, args.filter_n)
     sys.stderr.write("Got %d unique sequences\n" % len(seqs))
 
     # Get database kmers for filtering
@@ -157,6 +157,7 @@ if __name__ == '__main__':
     parser.add_argument("-t", "--threshold", type=float, help="Read kmer filtering threshold [0 > float > 1, default=0.0]", nargs='?', default=0.2)
     parser.add_argument("-c", "--min_kmer_cov", type=float, help="Minimum coverage kmer culling [default=5]", nargs='?', default=5)
     parser.add_argument("-fa", type=str, help="Fasta file")
+    parser.add_argument("-fin", "--filter_n", action="store_true", default=False, help="Ignores sequences with 'N's")
     parser.add_argument("-fq", nargs='+', type=str, help="Fastq file/files")
     parser.add_argument("-s", "--subsample", type=int, help="Number of reads to subsample [default=all reads]", nargs='?', default=None)
     parser.add_argument("-dbg", "--debug_query", type=str, help="Debug query [default=all reads]", nargs='?', default=None)

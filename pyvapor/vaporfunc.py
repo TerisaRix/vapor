@@ -3,6 +3,7 @@
 import numpy as np
 import gzip
 import random
+import sys
 
 def kmers2str(kmers):
     """ Takes a set off kmers and extracts their string """
@@ -88,6 +89,11 @@ def parse_fasta_uniq(fasta, filter_Ns=True):
                         hs.append(tmph)
                         ss.append(tmps) 
                         sseen.add(tmps)
+                    if "N" in tmps:
+                        if filter_Ns == True:
+                            print(f'Warning: {tmph} contains one or more "N"s and got ignored.', file=sys.stderr)
+                        else:
+                            print(f'Warning: {tmph} contains one or more "N"s but is kept.', file=sys.stderr)
                 tmph = l
                 tmps = ""
             else:
